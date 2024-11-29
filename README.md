@@ -45,7 +45,7 @@ O projeto foi desenvolvido utilizando o framework **Arduino IDE** e o simulador 
 - Três botões foram configurados para as funções de iniciar o modo automático, iniciar o modo manual e desligar o sistema.
 - O potenciômetro foi conectado a um pino analógico para leitura de valores de tensão.
 
-<img src="Programa-1/imagens/wokwi.png" width="300" />
+<img src="Programa-1/imagens/wokwi.png" width="500" />
 
 #### Funcionamento:
 1. **Modo Automático**: No modo automático, o servo motor se move de 0° a 180° e depois retorna de 180° a 0°, com intervalos de tempo específicos para cada direção. Esse movimento é repetido continuamente até que o botão de desligar seja pressionado.
@@ -142,6 +142,8 @@ Foi utilizado o **ESP-IDF** para o desenvolvimento do código, o que permitiu co
 #### Inicialização:
 - O código inicializa os pinos do ESP32 (GPIOs 2, 4 e 15) para controlar o LED RGB.
 - Cada pino foi configurado para operar em modo PWM, com uma **frequência de 5 kHz** e **resolução de 8 bits** (0-255).
+
+<img src="Programa-2/imagens/wokwi.png" width="500" />
   
 #### Controle de Cores:
 - O controle do LED RGB foi realizado ajustando o duty cycle dos pinos que controlam as cores Vermelho (R), Verde (G) e Azul (B).
