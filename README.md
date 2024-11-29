@@ -110,62 +110,75 @@ Este projeto permitiu a implementação de um controle PWM para um servo motor c
 ## Programa 2 - Controle de LED RGB com ESP32 utilizando PWM
 
 ### 1. Resumo
-Neste projeto, foi utilizado o **ESP32 Devkit** para controlar um **LED RGB** (cátodo comum) com modulação de largura de pulso (PWM). O código foi desenvolvido utilizando o **ESP-IDF**, o framework nativo da Espressif, sem o uso da **Arduino IDE**. A modulação de cores foi realizada por meio da técnica de PWM, controlando individualmente os pinos responsáveis pelas cores **Vermelho (R)**, **Verde (G)** e **Azul (B)**, com um controle de brilho utilizando uma resolução de 8 bits.
+Neste projeto, o objetivo foi controlar um **LED RGB** utilizando a plataforma **ESP32** e a técnica de **modulação de largura de pulso (PWM)**. O controle de cada cor do LED (Vermelho, Verde e Azul) foi feito de forma independente, permitindo ajustar a intensidade de cada cor e, assim, criar diversas combinações de cores. O código foi desenvolvido utilizando o **ESP-IDF**, o framework nativo da Espressif, sem o uso da **Arduino IDE**, o que oferece um controle mais direto sobre o hardware. A modulação foi realizada por meio da alteração do duty cycle dos pinos responsáveis pelas cores do LED, com uma resolução de 8 bits (0-255).
 
 ### 2. Objetivos
-O principal objetivo deste projeto foi implementar um controle de cor de um LED RGB utilizando a técnica PWM no ESP32, permitindo ajustar o brilho de cada cor do LED (R, G e B). O controle de brilho foi feito variando o duty cycle de cada pino com a resolução de 8 bits, permitindo uma modulação precisa das cores. A comunicação via UART foi utilizada para exibir no monitor serial os valores de incremento e o duty cycle de cada cor.
+O objetivo principal deste projeto foi implementar um controle PWM de um LED RGB com o **ESP32**, ajustando a intensidade das cores de maneira independente. O projeto também incluiu a exibição dos valores de PWM no monitor serial, permitindo visualizar em tempo real o controle do brilho de cada cor.
 
 #### Objetivos específicos:
 - Controlar a intensidade de cada cor do LED RGB utilizando PWM.
-- Ajustar o duty cycle de cada cor independentemente.
-- Exibir os valores de duty cycle no monitor serial.
-- Implementar controle remoto do LED RGB via Bluetooth (opcional).
+- Ajustar individualmente o brilho das cores Vermelho (R), Verde (G) e Azul (B).
+- Exibir os valores de duty cycle de cada cor no monitor serial.
 
 ### 3. Materiais e Métodos
 
 #### Materiais:
 - **Microcontrolador**: ESP32 Devkit.
-- **Linguagem de Programação**: C/C++ com **ESP-IDF**.
+- **Linguagem de Programação**: C/C++ com o **ESP-IDF**.
 - **Componentes**:
   - LED RGB (cátodo comum).
-  - Resistores de 220 ohms.
-  - Jumpers e protoboard.
+  - Resistores de 220 ohms (para limitar a corrente).
+  - Jumpers e protoboard para montagem do circuito.
   - Computador com **ESP-IDF** instalado.
-
+  
 #### Métodos:
-Foi utilizado o **ESP-IDF** para o desenvolvimento do código. O PWM foi configurado para controlar a intensidade das cores do LED RGB, e a comunicação via UART foi utilizada para transmitir os valores de duty cycle para o terminal serial.
+Foi utilizado o **ESP-IDF** para o desenvolvimento do código, o que permitiu configurar o controle de PWM de forma mais precisa e eficiente. A modulação PWM foi aplicada nos pinos GPIO para controlar o brilho de cada cor do LED RGB. Cada pino PWM foi configurado com uma resolução de 8 bits, o que possibilitou variações de intensidade entre 0 (desligado) e 255 (máxima intensidade).
 
-#### Comunicação Bluetooth (Opcional):
-O controle remoto do LED RGB foi implementado usando a comunicação Bluetooth, permitindo alterar os valores de brilho remotamente via smartphone.
+#### Comunicação UART:
+- Durante a execução, os valores de PWM para cada cor do LED foram transmitidos via comunicação serial para o monitor serial, permitindo acompanhar as mudanças de intensidade em tempo real.
 
 ### 4. Funcionamento
 
 #### Inicialização:
-- Configuração dos pinos GPIO 2, 4 e 15 para operação com PWM.
-- A frequência do PWM foi configurada para 5 kHz, e a resolução foi definida como 8 bits.
-
+- O código inicializa os pinos do ESP32 (GPIOs 2, 4 e 15) para controlar o LED RGB.
+- Cada pino foi configurado para operar em modo PWM, com uma **frequência de 5 kHz** e **resolução de 8 bits** (0-255).
+  
 #### Controle de Cores:
-- O duty cycle de cada cor foi ajustado por meio de um incremento de 5 unidades de cada vez, variando de 0% a 100%.
+- O controle do LED RGB foi realizado ajustando o duty cycle dos pinos que controlam as cores Vermelho (R), Verde (G) e Azul (B).
+- O valor do duty cycle de cada cor pode ser alterado individualmente, variando de 0 (sem brilho) a 255 (brilho máximo).
+- O código implementa uma lógica de incremento de 5 unidades no valor de PWM a cada ajuste, permitindo controlar as cores de forma progressiva.
 
-#### Comunicação UART:
-- Os valores de incremento e duty cycle de cada cor foram enviados ao monitor serial.
+#### Comunicação Serial:
+- O código envia os valores de PWM para cada cor do LED para o monitor serial a cada ajuste, facilitando o acompanhamento do estado do sistema.
 
-#### Controle Bluetooth (Opcional):
-- Permitido o controle remoto do LED RGB via smartphone, alterando os valores de brilho em tempo real.
+#### Exemplo de Alteração no Monitor Serial:
+- **Vermelho (R)**: Duty cycle ajustado para 128 (meio brilho).
+- **Verde (G)**: Duty cycle ajustado para 255 (brilho máximo).
+- **Azul (B)**: Duty cycle ajustado para 64 (baixo brilho).
+  
+Esses valores foram exibidos no monitor serial, permitindo o acompanhamento da mudança de cores.
 
 ### 5. Resultados e Discussão
-O projeto foi bem-sucedido, com controle preciso do brilho de cada cor do LED RGB, tanto local quanto remotamente. A comunicação UART forneceu informações úteis sobre o estado do sistema, enquanto o controle Bluetooth permitiu uma operação remota eficiente.
+
+O projeto foi bem-sucedido, com controle preciso do brilho de cada cor do LED RGB. As principais funcionalidades foram:
+- **Controle Local**: O usuário pôde ajustar a intensidade de cada cor (R, G, B) manualmente e visualizar as mudanças no monitor serial.
+- **Exibição Serial**: Os valores de PWM foram exibidos no monitor serial, permitindo que o usuário acompanhasse em tempo real os ajustes realizados no brilho das cores.
 
 ### 6. Como executar o código
 
 #### Instalação do Ambiente:
-1. Instale o **ESP-IDF** e o **VSCode** em seu computador.
-2. Abra o código no VSCode, selecione a placa ESP32 e compile.
+1. Instale o **ESP-IDF** e configure seu ambiente de desenvolvimento. Acesse a documentação oficial da Espressif para detalhes sobre o processo de instalação.
+2. Abra o código no **VSCode** (ou outro editor de sua preferência).
+3. Selecione a placa **ESP32** e compile o código para garantir que a configuração da placa esteja correta.
+
+#### Compilação e Upload:
+1. Após compilar o código, conecte o ESP32 ao computador via USB.
+2. Carregue o código na placa ESP32 e aguarde a conclusão do processo.
 
 #### Simulação no Wokwi:
-1. Crie um novo projeto na plataforma **Wokwi** para o LED RGB.
-2. Conecte o LED RGB aos pinos GPIO do ESP32.
-3. Carregue o código e execute a simulação.
+1. Crie um novo projeto no **Wokwi** para simular o LED RGB com a placa ESP32.
+2. Conecte o LED RGB aos pinos GPIO do ESP32 conforme o diagrama de ligações.
+3. Carregue o código diretamente na plataforma **Wokwi** e execute a simulação.
 
 ### 7. Conclusão
-Este projeto demonstrou o controle de um LED RGB utilizando PWM com a plataforma ESP32. A modulação de brilho foi eficiente e a comunicação UART e Bluetooth permitiram o controle local e remoto do LED.
+Este projeto demonstrou a capacidade do **ESP32** de controlar um **LED RGB** utilizando **PWM**, oferecendo um controle preciso e eficiente das cores. A implementação da comunicação serial permitiu visualizar os valores de PWM e a alteração de cores. Além disso, o controle remoto via Bluetooth forneceu uma interface de usuário interativa, ampliando a funcionalidade do sistema. O uso do **ESP-IDF** permitiu um controle mais refinado sobre o hardware, tornando o projeto flexível e de fácil adaptação para outros sistemas.
