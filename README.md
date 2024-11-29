@@ -45,7 +45,7 @@ O projeto foi desenvolvido utilizando o framework **Arduino IDE** e o simulador 
 - Três botões foram configurados para as funções de iniciar o modo automático, iniciar o modo manual e desligar o sistema.
 - O potenciômetro foi conectado a um pino analógico para leitura de valores de tensão.
 
-![Circuito Montado](Programa-1/imagens/wokwi.png)
+<img src="Programa-1/imagens/wokwi.png" width="300" />
 
 #### Funcionamento:
 1. **Modo Automático**: No modo automático, o servo motor se move de 0° a 180° e depois retorna de 180° a 0°, com intervalos de tempo específicos para cada direção. Esse movimento é repetido continuamente até que o botão de desligar seja pressionado.
