@@ -71,7 +71,7 @@ O projeto foi implementado com sucesso no simulador Wokwi. Os resultados atendem
 ### Exemplos do Funcionamento:
 1. Exibição do ângulo do servo no modo automático:
 
-   ![Modo Automático](Programa-1/gifs/2.png)
+   ![Modo Automático](Programa-1/gifs/2.gif)
 
 2. Exibição da alteração do ângulo no modo manual com o potenciômetro:
 
