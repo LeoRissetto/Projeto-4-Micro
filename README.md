@@ -1,13 +1,14 @@
 # Projeto 4 - Controle PWM e Comunicação com ESP32
 
-## Disciplina: SEL0614 - Aplicação de Microprocessadores  
-###  Programa 1 - Controle de Servo Motor e Comunicação Serial com ESP32
+## Disciplina: SEL0614 - Aplicação de Microprocessadores
 
 ## Membros do Grupo
 - Leonardo Gueno Rissetto (13676482)
 - Thiago Kashivagui Gonçalves (13676579)
 - Lucas Lima Romero (13676325)
 - Marco Antonio Gaspar Garcia (11833581)
+
+###  Programa 1 - Controle de Servo Motor e Comunicação Serial com ESP32
 
 ## 1. Resumo
 Este projeto implementa um controle PWM para um servo motor, utilizando a plataforma ESP32. O sistema inclui a leitura de botões para alternar entre modos automáticos e manuais de controle de posição do servo, além de um display OLED que exibe a posição e o sentido de rotação do motor. A comunicação serial via UART e o uso de um potenciômetro permitem o controle do ângulo do servo manualmente, enquanto os botões alteram o comportamento do sistema. O projeto foi desenvolvido e testado utilizando o simulador **Wokwi**, uma plataforma online de prototipagem de circuitos.
