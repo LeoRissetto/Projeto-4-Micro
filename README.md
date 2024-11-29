@@ -1,7 +1,7 @@
 # Projeto 4 - Controle PWM e Comunicação com ESP32
 
 ## Disciplina: SEL0614 - Aplicação de Microprocessadores  
-### Parte 4 - Microcontroladores ESP32 e Programação em Linguagem C
+###  Programa 1 - Controle de Servo Motor e Comunicação Serial com ESP32
 
 ## Membros do Grupo
 - Leonardo Gueno Rissetto (13676482)
@@ -105,3 +105,116 @@ O uso de PWM para controle do servo motor foi eficaz e atendeu aos requisitos de
 
 ## 7. Conclusão
 Este projeto permitiu a implementação de um controle PWM para um servo motor com a plataforma ESP32. O controle foi feito em dois modos: automático e manual, com exibição do estado do sistema em um display OLED e via comunicação serial. A interação com o sistema foi facilitada pelos botões e pelo potenciômetro, proporcionando uma interface simples e eficiente. O sucesso do projeto demonstrou a versatilidade da ESP32 para controle de periféricos e comunicação serial, e o uso do simulador Wokwi proporcionou uma plataforma prática para prototipagem e teste do circuito.
+
+## 8. Programa 2 - Controle de LED RGB com ESP32 utilizando PWM
+
+### Resumo
+Neste projeto, foi utilizado o **ESP32 Devkit** para controlar um **LED RGB** (cátodo comum) com modulação de largura de pulso (PWM). O código foi desenvolvido utilizando o **ESP-IDF**, o framework nativo da Espressif, sem o uso da **Arduino IDE**. A modulação de cores foi realizada por meio da técnica de PWM, controlando individualmente os pinos responsáveis pelas cores **Vermelho (R)**, **Verde (G)** e **Azul (B)**, com um controle de brilho utilizando uma resolução de 8 bits.
+
+### Objetivos
+O principal objetivo deste projeto foi implementar um controle de cor de um LED RGB utilizando a técnica PWM no ESP32, permitindo ajustar o brilho de cada cor do LED (R, G e B). O controle de brilho foi feito variando o duty cycle de cada pino com a resolução de 8 bits, permitindo uma modulação precisa das cores. A comunicação via UART foi utilizada para exibir no monitor serial o valor do incremento e do duty cycle de cada cor.
+
+### Objetivos específicos:
+- Controlar o brilho do LED RGB utilizando PWM em 3 pinos GPIO do ESP32.
+- Utilizar a biblioteca **LEDC** (LED Control PWM) do ESP32 para implementar o controle de brilho.
+- Modificar o duty cycle de cada cor individualmente, com incremento de 5 unidades por vez, variando de 0 a 100% de brilho.
+- Exibir no Monitor Serial o valor de incremento e duty cycle para cada cor.
+- Explorar a comunicação sem fio via Bluetooth (opcional).
+
+## 9. Materiais e Métodos
+
+### Materiais:
+- **Microcontrolador**: ESP32 Devkit.
+- **Linguagem de programação**: C/C++ com **ESP-IDF**.
+- **Componentes adicionais**:
+  - LED RGB (cátodo comum).
+  - Resistores de 220 ohms.
+  - Jumpers.
+  - Protoboard.
+  - Computador com **ESP-IDF** instalado.
+
+### Métodos:
+1. **Configuração do ESP32**:
+   - Utilizamos o **ESP-IDF**, que é o framework nativo para a programação do ESP32. O código foi desenvolvido utilizando a **Plataforma VSCode** com a extensão **ESP-IDF**.
+   - Os pinos GPIO responsáveis pelas cores do LED RGB foram configurados para PWM utilizando a biblioteca **LEDC**.
+   
+2. **Configuração do PWM**:
+   - Cada pino (R, G e B) foi vinculado a um canal PWM distinto do ESP32, com frequência de 5 kHz e resolução de 8 bits.
+   - O valor de incremento foi definido como 5, fazendo com que o brilho de cada cor fosse modificado em incrementos de 5 unidades (duty cycle). A fórmula aplicada foi:
+     - `R = incremento * 2`
+     - `G = incremento`
+     - `B = incremento * 3`
+
+3. **Exibição no Monitor Serial**:
+   - O valor de incremento e o duty cycle de cada cor foram exibidos no Monitor Serial utilizando a comunicação UART, com baud rate de 115200.
+
+4. **Opções de Comunicação Sem Fio (Desafio 1)**:
+   - Foi explorada a possibilidade de comunicação Bluetooth para controlar o PWM via aplicativo no smartphone. A comunicação foi implementada utilizando o protocolo **Bluetooth Serial** e a biblioteca **ESP32 Bluetooth Serial**.
+   - Foi também considerada a implementação de comunicação via Wi-Fi como alternativa, utilizando o protocolo **WebSocket** para controlar as cores do LED RGB remotamente.
+
+### Esquema de Ligação:
+
+- **Pino R (Vermelho)**: GPIO 18
+- **Pino G (Verde)**: GPIO 19
+- **Pino B (Azul)**: GPIO 21
+- **Resistores de 220 ohms** conectados em série com cada pino.
+
+![Esquema de Ligação do LED RGB com ESP32](Programa-2/imagens/wokwi.png)
+
+## 10. Funcionamento
+
+### Inicialização:
+- Os pinos GPIO 18, 19 e 21 foram configurados para operação PWM.
+- A frequência do PWM foi configurada para 5 kHz e a resolução para 8 bits.
+- O duty cycle de cada cor (R, G e B) foi modificado em incrementos de 5 unidades em um loop contínuo.
+
+### Controle de Cores:
+- No código, a variação do brilho de cada cor foi realizada incrementando o duty cycle de forma independente. O valor de incremento foi aplicado da seguinte maneira:
+  - Para o LED vermelho (R), o duty cycle era ajustado de acordo com `R = incremento * 2`.
+  - Para o LED verde (G), o duty cycle era ajustado de acordo com `G = incremento`.
+  - Para o LED azul (B), o duty cycle era ajustado de acordo com `B = incremento * 3`.
+
+### Comunicação UART:
+- Durante a execução do programa, o valor de incremento e o duty cycle de cada cor foram enviados para o Monitor Serial a cada ciclo de incremento.
+
+### Comunicação Bluetooth (Desafio 1):
+- Foi implementada uma comunicação Bluetooth simples, onde o smartphone enviava comandos (como valores de incremento) para o ESP32, e este ajustava o brilho do LED RGB de acordo com o valor recebido via Bluetooth.
+
+## 11. Resultados e Discussão
+
+O projeto foi implementado com sucesso, controlando o LED RGB com PWM no ESP32. O ciclo de incremento e o duty cycle para cada cor (R, G e B) foram corretamente modulados, e as variações de brilho foram visíveis no LED RGB.
+
+- **Controle de Brilho**: O controle do brilho foi eficiente, variando suavemente de 0% a 100% com o valor de incremento definido.
+- **Exibição no Monitor Serial**: O valor de incremento e o duty cycle das cores foram corretamente exibidos no Monitor Serial.
+- **Comunicação Bluetooth**: A comunicação Bluetooth foi bem-sucedida, permitindo controlar o brilho do LED RGB diretamente do smartphone.
+
+### Exemplos do Funcionamento:
+1. Exibição no Monitor Serial durante o controle do LED RGB:
+
+
+2. Variação das cores no LED RGB:
+
+
+## 12. Como executar o código
+
+### Instalação do Ambiente:
+1. Instale o **ESP-IDF** e a **Plataforma VSCode** com a extensão ESP-IDF.
+2. Conecte o ESP32 ao computador.
+3. Abra o código no VSCode e selecione a placa ESP32 correta.
+4. Compile e faça o upload do código para o ESP32.
+
+### Executando o Código:
+1. Compile o código no VSCode utilizando a plataforma ESP-IDF.
+2. Carregue o código na placa ESP32.
+3. Abra o monitor serial no VSCode para visualizar os valores de incremento e duty cycle.
+4. (Desafio 1) Se optado por usar Bluetooth, instale o aplicativo de controle Bluetooth no smartphone e conecte-se ao ESP32.
+
+### Simulação no Wokwi:
+1. Acesse a plataforma **Wokwi** e crie um novo projeto para a ESP32.
+2. Adicione um LED RGB e configure os pinos conforme o esquema de ligação.
+3. Carregue o código na plataforma Wokwi e execute a simulação para verificar o funcionamento.
+
+## 13. Conclusão
+
+Este projeto permitiu o controle de um LED RGB utilizando PWM com a plataforma **ESP32** e o framework **ESP-IDF**. O controle do brilho foi realizado com precisão, variando o duty cycle de cada cor individualmente. A comunicação via **UART** e **Bluetooth** foi implementada com sucesso, proporcionando uma interface para monitoramento e controle do LED RGB. O sucesso na implementação demonstrou a versatilidade do **ESP32** em projetos de controle de periféricos e a eficácia do **ESP-IDF** para manipulação de PWM e comunicação sem fio.
+
