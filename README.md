@@ -107,80 +107,92 @@ O uso de PWM para controle do servo motor foi eficaz e atendeu aos requisitos de
 ### 7. Conclusão
 Este projeto permitiu a implementação de um controle PWM para um servo motor com a plataforma ESP32. O controle foi feito em dois modos: automático e manual, com exibição do estado do sistema em um display OLED e via comunicação serial. A interação com o sistema foi facilitada pelos botões e pelo potenciômetro, proporcionando uma interface simples e eficiente. O sucesso do projeto demonstrou a versatilidade da ESP32 para controle de periféricos e comunicação serial, e o uso do simulador Wokwi proporcionou uma plataforma prática para prototipagem e teste do circuito.
 
-## Programa 2 - Controle de LED RGB com ESP32 utilizando PWM
+## Programa 2 - Controle PWM de LED RGB com ESP32
 
 ### 1. Resumo
-Neste projeto, o objetivo foi controlar um **LED RGB** utilizando a plataforma **ESP32** e a técnica de **modulação de largura de pulso (PWM)**. O controle de cada cor do LED (Vermelho, Verde e Azul) foi feito de forma independente, permitindo ajustar a intensidade de cada cor e, assim, criar diversas combinações de cores. O código foi desenvolvido utilizando o **ESP-IDF**, o framework nativo da Espressif, sem o uso da **Arduino IDE**, o que oferece um controle mais direto sobre o hardware. A modulação foi realizada por meio da alteração do duty cycle dos pinos responsáveis pelas cores do LED, com uma resolução de 8 bits (0-255).
+Este projeto implementa o controle PWM de um LED RGB (cátodo comum) utilizando o microcontrolador ESP32 Devkit, com a modulação de brilho individual para as cores vermelha (R), verde (G) e azul (B). O controle de intensidade de cada cor é realizado por meio da técnica PWM, com uma resolução de 8 bits (256 níveis). A frequência do PWM foi configurada para 5kHz, e a variação do duty cycle ocorre em um loop, alterando os valores das cores do LED conforme um incremento predefinido. O monitor serial exibe o valor de incremento e o duty cycle de cada cor em tempo real. O projeto foi desenvolvido utilizando o framework ESP-IDF na plataforma de desenvolvimento **VSCode** ou **Eclipse**.
 
 ### 2. Objetivos
-O objetivo principal deste projeto foi implementar um controle PWM de um LED RGB com o **ESP32**, ajustando a intensidade das cores de maneira independente. O projeto também incluiu a exibição dos valores de PWM no monitor serial, permitindo visualizar em tempo real o controle do brilho de cada cor.
+O objetivo principal deste projeto é realizar o controle de um LED RGB utilizando PWM no ESP32, permitindo a modulação de cores (vermelho, verde e azul) com variação de brilho. A resolução do controle é de 8 bits, com incrementos de valores predefinidos aplicados individualmente a cada cor. Além disso, o projeto deve exibir os valores de incremento e duty cycle no terminal via comunicação UART.
 
 #### Objetivos específicos:
-- Controlar a intensidade de cada cor do LED RGB utilizando PWM.
-- Ajustar individualmente o brilho das cores Vermelho (R), Verde (G) e Azul (B).
-- Exibir os valores de duty cycle de cada cor no monitor serial.
+- Implementar o controle PWM para modulação do brilho das cores do LED RGB.
+- Controlar a intensidade das cores (R, G, B) com a técnica PWM usando a biblioteca LEDC da ESP32.
+- Modificar o duty cycle de cada cor de acordo com um valor de incremento predefinido.
+- Exibir os valores de incremento e duty cycle das cores no monitor serial.
+- Testar o projeto utilizando o simulador **Wokwi**.
 
 ### 3. Materiais e Métodos
 
 #### Materiais:
 - **Microcontrolador**: ESP32 Devkit.
-- **Linguagem de Programação**: C/C++ com o **ESP-IDF**.
-- **Componentes**:
+- **Simulador**: Wokwi (plataforma online de prototipagem de circuitos).
+- **Linguagem de programação**: C/C++ com **ESP-IDF**.
+- **Componentes adicionais**:
   - LED RGB (cátodo comum).
-  - Resistores de 220 ohms (para limitar a corrente).
-  - Jumpers e protoboard para montagem do circuito.
-  - Computador com **ESP-IDF** instalado.
-  
+  - Resistor de 220 ohms (para cada cor).
+  - Jumpers e protoboard.
+
 #### Métodos:
-Foi utilizado o **ESP-IDF** para o desenvolvimento do código, o que permitiu configurar o controle de PWM de forma mais precisa e eficiente. A modulação PWM foi aplicada nos pinos GPIO para controlar o brilho de cada cor do LED RGB. Cada pino PWM foi configurado com uma resolução de 8 bits, o que possibilitou variações de intensidade entre 0 (desligado) e 255 (máxima intensidade).
+O projeto foi desenvolvido utilizando o framework **ESP-IDF** na plataforma **VSCode** ou **Eclipse**, ou ainda via terminal com a ferramenta ESP-IDF. A biblioteca **LEDC** foi utilizada para realizar a modulação PWM das cores do LED RGB. O valor de incremento foi aplicado individualmente a cada cor do LED, e a comunicação serial via UART foi configurada para exibir as informações de controle.
 
-#### Comunicação UART:
-- Durante a execução, os valores de PWM para cada cor do LED foram transmitidos via comunicação serial para o monitor serial, permitindo acompanhar as mudanças de intensidade em tempo real.
-
-### 4. Funcionamento
-
+### 4. Descrição
 #### Inicialização:
-- O código inicializa os pinos do ESP32 (GPIOs 2, 4 e 15) para controlar o LED RGB.
-- Cada pino foi configurado para operar em modo PWM, com uma **frequência de 5 kHz** e **resolução de 8 bits** (0-255).
+- O pino GPIO utilizado para o controle PWM de cada cor do LED RGB foi configurado.
+- A biblioteca **LEDC** foi inicializada para controlar o PWM.
+- O valor de incremento foi pré-definido (por exemplo, 5), e a modulação do brilho foi realizada de forma incremental, com a variação de duty cycle de 0 a 100% para cada cor (R, G, B).
 
 <img src="Programa-2/imagens/wokwi.png" width="500" />
-  
-#### Controle de Cores:
-- O controle do LED RGB foi realizado ajustando o duty cycle dos pinos que controlam as cores Vermelho (R), Verde (G) e Azul (B).
-- O valor do duty cycle de cada cor pode ser alterado individualmente, variando de 0 (sem brilho) a 255 (brilho máximo).
-- O código implementa uma lógica de incremento de 5 unidades no valor de PWM a cada ajuste, permitindo controlar as cores de forma progressiva.
 
-#### Comunicação Serial:
-- O código envia os valores de PWM para cada cor do LED para o monitor serial a cada ajuste, facilitando o acompanhamento do estado do sistema.
+#### Funcionamento:
+1. **Controle PWM**: O PWM é aplicado a cada cor do LED RGB, variando a intensidade de brilho de 0 a 255, com um incremento predefinido (por exemplo, 5). A resolução do PWM foi configurada para 8 bits, com uma frequência de 5kHz.
+2. **Exibição no Monitor Serial**: A cada ciclo, o valor de incremento e o duty cycle de cada cor (R, G, B) são exibidos no terminal via UART.
+3. **Loop de Modulação**: O sistema realiza a modulação de cores em loop, com variação do duty cycle para cada cor do LED, gerando uma animação de transição entre as cores.
 
-#### Exemplo de Alteração no Monitor Serial:
-- **Vermelho (R)**: Duty cycle ajustado para 128 (meio brilho).
-- **Verde (G)**: Duty cycle ajustado para 255 (brilho máximo).
-- **Azul (B)**: Duty cycle ajustado para 64 (baixo brilho).
+#### Controle PWM:
+- A frequência do PWM foi configurada para 5 kHz.
+- O duty cycle de cada cor varia de 0% a 100%, e o valor de incremento foi ajustado conforme o valor pré-definido.
   
-Esses valores foram exibidos no monitor serial, permitindo o acompanhamento da mudança de cores.
+#### Alteração dos Duty Cycles:
+- **R = incremento * 2**.
+- **G = incremento**.
+- **B = incremento * 3**.
+  
+Esses valores são aplicados ao duty cycle individual de cada cor no LED RGB.
 
 ### 5. Resultados e Discussão
+O projeto foi implementado com sucesso no simulador Wokwi. Os resultados atendem aos seguintes requisitos:
 
-O projeto foi bem-sucedido, com controle preciso do brilho de cada cor do LED RGB. As principais funcionalidades foram:
-- **Controle Local**: O usuário pôde ajustar a intensidade de cada cor (R, G, B) manualmente e visualizar as mudanças no monitor serial.
-- **Exibição Serial**: Os valores de PWM foram exibidos no monitor serial, permitindo que o usuário acompanhasse em tempo real os ajustes realizados no brilho das cores.
+- **Controle de Brilho das Cores**: As cores do LED RGB foram controladas adequadamente, com variação de brilho em função do valor de incremento.
+- **Exibição de Dados no Monitor Serial**: Os valores de incremento e duty cycle para cada cor (R, G, B) foram corretamente exibidos no terminal via UART.
+- **Simulação no Wokwi**: A simulação foi realizada de forma satisfatória no simulador Wokwi, permitindo observar a modulação das cores do LED RGB.
+
+#### Exemplos do Funcionamento:
+1. Exibição no monitor serial dos valores de incremento e duty cycle e da Animação da modulação das cores no LED RGB:
+
+   ![Monitor Serial](Programa-2/gifs/1.gif)
+
+#### Discussão:
+A modulação de brilho por PWM funcionou corretamente, permitindo o controle preciso da intensidade de cada cor do LED RGB. A exibição das informações no monitor serial ajudou a verificar os valores de incremento e duty cycle, proporcionando uma forma de acompanhamento do sistema. O uso do simulador Wokwi foi uma maneira eficaz de testar o comportamento do circuito e da programação sem a necessidade de testar fisicamente na placa ESP32.
 
 ### 6. Como executar o código
 
 #### Instalação do Ambiente:
-1. Instale o **ESP-IDF** e configure seu ambiente de desenvolvimento. Acesse a documentação oficial da Espressif para detalhes sobre o processo de instalação.
-2. Abra o código no **VSCode** (ou outro editor de sua preferência).
-3. Selecione a placa **ESP32** e compile o código para garantir que a configuração da placa esteja correta.
+1. Baixe e instale o **VSCode** e a extensão **ESP-IDF** ou use o **Eclipse** com a ESP-IDF.
+2. Configure o **ESP-IDF** em seu ambiente de desenvolvimento.
+3. Conecte o ESP32 ao seu computador via USB.
 
-#### Compilação e Upload:
-1. Após compilar o código, conecte o ESP32 ao computador via USB.
-2. Carregue o código na placa ESP32 e aguarde a conclusão do processo.
+#### Executando o Código:
+1. No VSCode ou Eclipse, abra o projeto e selecione o ambiente de desenvolvimento.
+2. Compile e carregue o código no ESP32.
+3. Conecte o LED RGB ao ESP32 conforme o esquema do projeto.
+4. Abra o monitor serial no VSCode ou na IDE de sua escolha para visualizar os dados enviados via UART.
 
 #### Simulação no Wokwi:
-1. Crie um novo projeto no **Wokwi** para simular o LED RGB com a placa ESP32.
-2. Conecte o LED RGB aos pinos GPIO do ESP32 conforme o diagrama de ligações.
-3. Carregue o código diretamente na plataforma **Wokwi** e execute a simulação.
+1. Acesse a plataforma **Wokwi** e crie um novo projeto para a ESP32.
+2. Conecte o LED RGB ao ESP32 conforme o esquema de ligação.
+3. Carregue o código diretamente na plataforma Wokwi.
+4. Execute a simulação e observe a modulação das cores do LED RGB e os valores de incremento e duty cycle no terminal.
 
 ### 7. Conclusão
-Este projeto demonstrou a capacidade do **ESP32** de controlar um **LED RGB** utilizando **PWM**, oferecendo um controle preciso e eficiente das cores. A implementação da comunicação serial permitiu visualizar os valores de PWM e a alteração de cores. Além disso, o controle remoto via Bluetooth forneceu uma interface de usuário interativa, ampliando a funcionalidade do sistema. O uso do **ESP-IDF** permitiu um controle mais refinado sobre o hardware, tornando o projeto flexível e de fácil adaptação para outros sistemas.
+Este projeto demonstrou a implementação de controle PWM para um LED RGB utilizando o ESP32. A modulação das cores foi realizada com precisão, e os valores de incremento e duty cycle foram exibidos de forma eficaz no monitor serial. O uso do simulador Wokwi foi fundamental para testar o projeto sem a necessidade de hardware físico. O sucesso do projeto destaca a eficácia da plataforma ESP32 para controle de LEDs RGB com PWM, além de proporcionar uma experiência prática de programação com o ESP-IDF.
