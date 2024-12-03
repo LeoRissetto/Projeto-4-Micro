@@ -58,12 +58,24 @@ void init_ledc()
 void ledc_fade()
 {
     int increment = 5;
+    int red_duty = 0; // Inicializa a variável
+    int green_duty = 0;
+    int blue_duty = 0;
 
-    for (int duty = 0; duty <= 255; duty += increment)
+    while (1)
     {
-        int red_duty = duty * 2 > 255 ? 255 : duty * 2;
-        int green_duty = duty;
-        int blue_duty = duty * 3 > 255 ? 255 : duty * 3;
+        // Calcular o valor de duty para R, G e B, com o limite de 255
+        red_duty += increment * 2;
+        green_duty += increment;
+        blue_duty += increment * 3;
+
+        // Verificar se qualquer cor atingiu 255 e reiniciar para 0
+        if (red_duty > 255)
+            red_duty = 0;
+        if (green_duty > 255)
+            green_duty = 0;
+        if (blue_duty > 255)
+            blue_duty = 0;
 
         // Aplicar os valores de duty nos canais PWM
         ledc_set_duty(LEDC_MODE, LEDC_CHANNEL_RED, red_duty);
